@@ -163,3 +163,5 @@ cython_debug/
 
 # Private ignore
 streamlitEnv
+.pkl
+.csv

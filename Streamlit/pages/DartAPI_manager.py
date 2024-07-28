@@ -1,6 +1,4 @@
 
-import OpenDartReader
-import pandas as pd
 import logger
 import datetime
 
@@ -11,9 +9,6 @@ current_dir = os.path.dirname(__file__)
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 import DartAPI_utils as DU
-
-api_key = 'c49a57e08d86f3eadd001281cfdf95865549056b'
-dart = OpenDartReader(api_key)
 
 def get_stock_info_api(name, code='11011'):
     if code == '11011':

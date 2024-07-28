@@ -26,7 +26,7 @@ col1, col2, col3, col4 = st.columns(4)
 
 # 세션 상태 초기화
 if 'quarter' not in st.session_state:
-    st.session_state['quarter'] = None
+    st.session_state['quarter'] = '11011'
 
 with col1:
     if st.button('1분기'):

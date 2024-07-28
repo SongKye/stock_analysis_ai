@@ -1,39 +1,32 @@
 
 import OpenDartReader
 import pandas as pd
+import logger
+import datetime
+
+import sys
+import os
+# 현재 스크립트가 있는 디렉토리를 sys.path에 추가
+current_dir = os.path.dirname(__file__)
+if current_dir not in sys.path:
+    sys.path.append(current_dir)
+import DartAPI_utils as DU
 
 api_key = 'c49a57e08d86f3eadd001281cfdf95865549056b'
 dart = OpenDartReader(api_key)
 
-def get_stock_info_api(name):
-    data = dart.finstate(name, 2023)
-    df = pd.DataFrame(data)
-
-    columns_to_save = ['account_nm', 'thstrm_nm', 'thstrm_amount', 'frmtrm_nm', 'frmtrm_amount', 'bfefrmtrm_nm', 'bfefrmtrm_amount']
-    df_selected = df[columns_to_save]
-
-    # 재구성할 열 이름과 값 매핑
-    new_columns = {
-        'thstrm_nm': 'thstrm_amount',
-        'frmtrm_nm': 'frmtrm_amount',
-        'bfefrmtrm_nm': 'bfefrmtrm_amount'
-    }
-
-    # 새로운 데이터프레임 생성
-    restructured_data = {'account_nm': df_selected['account_nm']}
-
-    for period_col, amount_col in new_columns.items():
-        for i, period in enumerate(df[period_col]):
-            if period not in restructured_data:
-                restructured_data[period] = []
-            restructured_data[period].append(df.at[i, amount_col])
-
-    restructured_df = pd.DataFrame(restructured_data)
-    return restructured_df
-
-    # csv_file_path = 'dataframe_output.csv'
-    # restructured_df.to_csv(csv_file_path, index=False, encoding='utf-8-sig')
+def get_stock_info_api(name, code='11011'):
+    if code == '11011':
+        return DU.remake_df_4Q(name, code)
+    elif code == '11012':
+        return DU.remake_df_1Q_2Q_3Q(name, code)
+    elif code == '11013':
+        return DU.remake_df_1Q_2Q_3Q(name, code)
+    elif code == '11014':
+        return DU.remake_df_1Q_2Q_3Q(name, code)
+    else:
+        logger.error(f"reprt_code error")
 
 if __name__== "__main__":
-    get_stock_info_api("삼성전자")
+    get_stock_info_api("005930", code='11012')  # 이름이 아닌 code로 가져오는게 안전함
 

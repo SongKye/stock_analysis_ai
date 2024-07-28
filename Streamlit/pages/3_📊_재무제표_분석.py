@@ -26,39 +26,38 @@ col1, col2, col3, col4 = st.columns(4)
 
 # 세션 상태 초기화
 if 'quarter' not in st.session_state:
-    st.session_state.quarter = None
+    st.session_state['quarter'] = None
 
 with col1:
     if st.button('1분기'):
-        st.session_state.quarter = '11013'
+        st.session_state['quarter'] = '11013'
 
 with col2:
     if st.button('2분기'):
-        st.session_state.quarter = '11012'
+        st.session_state['quarter'] = '11012'
 
 with col3:
     if st.button('3분기'):
-        st.session_state.quarter = '11014'
+        st.session_state['quarter'] = '11014'
 
 with col4:
     if st.button('4분기'):
-        st.session_state.quarter = '11011'
+        st.session_state['quarter'] = '11011'
 
 # 텍스트 입력 칸을 만들고 사용자가 입력한 값을 변수에 저장
 user_input = st.text_input("Enter some text:")
 
 def get_stock_data():
     if user_input is not None:
-       return get_stock_info_api(user_input, code=st.session_state.quarter)
+       return get_stock_info_api(user_input, code=st.session_state['quarter'])
     
-
 if st.button('Click Me'):
     data = get_stock_data()
     # data가 dict인지 확인
     if isinstance(data, dict):
         for key, df in data.items():
             st.write(f"### {key}")
-            st.dataframe(df, width=3200, height=400)
+            st.write(df)
         
 
 if __name__== "__main__":
